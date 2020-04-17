@@ -46,10 +46,9 @@ function benchmark(funcs, iterations = 1) {
  */
 export function logBenchmarkResult(result) {
   const entries = Object.entries(result);
-  entries.forEach((entry) => {
+  entries.forEach((entry, index) => {
     // eslint-disable-next-line no-console
-    console.info(`Test: ${entry[0]}`);
-    // eslint-disable-next-line no-use-before-define
+    console.info(`${index > 0 && index < entries.length ? '\r\n' : ''}${entry[0]}`);
     logMeasureResult(entry[1]);
   });
 }

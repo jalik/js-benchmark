@@ -42,9 +42,9 @@ describe('benchmark(funcs, iterations)', () => {
   });
 
   it('should return a result for each func', () => {
-    Object.entries(funcs).forEach(([title]) => {
-      expect(typeof result[title]).not.toBeNull();
-      expect(typeof result[title]).toBe('object');
+    Object.entries(funcs).forEach(([name]) => {
+      expect(typeof result[name]).not.toBeNull();
+      expect(typeof result[name]).toBe('object');
     });
   });
 
