@@ -34,9 +34,21 @@ import measure, { logMeasureResult } from './measure';
 function benchmark(funcs, iterations = 1) {
   const result = {};
 
+  // Measure functions.
   Object.entries(funcs).forEach((entry) => {
     result[entry[0]] = measure(entry[1], iterations);
   });
+
+  // Sort result from fastest to slowest.
+  const sortedResult = Object.entries(result)
+    .map((entry) => [entry[0], entry[1].total])
+    .sort((a, b) => a[1] - b[1]);
+
+  // Assign rank to each function result.
+  sortedResult.forEach((r, index) => {
+    result[r[0]].rank = index + 1;
+  });
+
   return result;
 }
 

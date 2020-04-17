@@ -48,6 +48,12 @@ describe('benchmark(funcs, iterations)', () => {
     });
   });
 
+  it('should return a rank for each func result', () => {
+    Object.entries(funcs).forEach(([name]) => {
+      expect(typeof result[name].rank).toBe('number');
+    });
+  });
+
   it('should call each func {iterations} times', () => {
     Object.entries(funcs).forEach((kv, index) => {
       expect(counters[index]).toBe(iterations);
