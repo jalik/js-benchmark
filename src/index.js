@@ -23,5 +23,12 @@
  *
  */
 
-export { default as benchmark } from './benchmark';
-export { default as measure } from './measure';
+export {
+  default as benchmark,
+  logBenchmarkResult,
+} from './benchmark';
+
+export {
+  default as measure,
+  logMeasureResult,
+} from './measure';
