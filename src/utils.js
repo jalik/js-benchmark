@@ -106,15 +106,22 @@ export function max(numbers) {
 /**
  * Returns the median value of numbers.
  * @param {number[]} numbers
- * @return {number}
+ * @return {null|number}
  */
 export function median(numbers) {
-  if (numbers.length === 0) return 0;
-  numbers.sort((a, b) => a - b);
-  const half = Math.floor(numbers.length / 2);
-  return numbers.length % 2
-    ? numbers[half]
-    : (numbers[half - 1] + numbers[half]) / 2.0;
+  if (numbers.length === 0) return null;
+  const sortedNumbers = [...numbers];
+
+  for (let i = 0; i < numbers.length; i += 1) {
+    if (typeof numbers[i] === 'number') {
+      sortedNumbers.push(numbers[i]);
+    }
+  }
+  sortedNumbers.sort();
+  const half = Math.floor(sortedNumbers.length / 2);
+  return sortedNumbers.length % 2
+    ? sortedNumbers[half]
+    : (sortedNumbers[half - 1] + sortedNumbers[half]) / 2.0;
 }
 
 /**
