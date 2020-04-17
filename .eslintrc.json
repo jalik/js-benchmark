@@ -1,0 +1,17 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest": true,
+    "node": true
+  },
+  "extends": "airbnb-base",
+  "parser": "babel-eslint",
+  "plugins": [
+    "import",
+    "jest"
+  ],
+  "rules": {
+    "import/prefer-default-export": "warn"
+  }
+}
