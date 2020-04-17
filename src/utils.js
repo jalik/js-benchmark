@@ -34,12 +34,23 @@ export function calculateIps(time, iterations) {
 }
 
 /**
- * Returns the statistics of times.
+ * Calculates statistics of several times.
  * @param {number[]} times
- * @return {*}
+ * @return {{
+ *   average: number,
+ *   fastest: number,
+ *   ips: number,
+ *   ipsAccuracy: number,
+ *   ipsRounded: number,
+ *   iterations: number,
+ *   median: number,
+ *   slowest: number
+ *   total: number,
+ * }}
  */
 export function calculateStats(times) {
-  const total = times.reduce((a, b) => a + b, 0);
+  // eslint-disable-next-line no-use-before-define
+  const total = sum(times);
   const average = total / times.length;
   const ips = calculateIps(total, times.length);
   // eslint-disable-next-line no-use-before-define
@@ -153,4 +164,21 @@ export function roundToNearest(number, precision = 0) {
   const m = 10 ** precision;
   const p = 17 - precision - (Math.round(number * m) / m).toString().length;
   return Math.round(number * m + 0.1 ** p) / m;
+}
+
+/**
+ * Returns the sum of numbers.
+ * @param numbers
+ * @return {null|number}
+ */
+export function sum(numbers) {
+  if (numbers.length === 0) return null;
+  let total = 0;
+
+  for (let i = 0; i < numbers.length; i += 1) {
+    if (typeof numbers[i] === 'number') {
+      total += numbers[i];
+    }
+  }
+  return total;
 }
