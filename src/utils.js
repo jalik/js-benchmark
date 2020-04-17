@@ -83,7 +83,7 @@ export function calculateStats(times) {
 export function currentMillis() {
   return typeof performance !== 'undefined' && 'now' in performance
     ? performance.now()
-    : Date.now;
+    : Date.now();
 }
 
 /**
