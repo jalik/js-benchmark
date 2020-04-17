@@ -57,11 +57,18 @@ function benchmark(funcs, iterations = 1) {
  * @param result
  */
 export function logBenchmarkResult(result) {
-  const entries = Object.entries(result);
-  entries.forEach((entry, index) => {
+  // Sort result from fastest to slowest.
+  const sortedResult = Object.entries(result)
+    .map((entry) => [entry[0], entry[1].total])
+    .sort((a, b) => a[1] - b[1]);
+
+  // Display each result to console.
+  sortedResult.forEach((entry, index) => {
+    const mr = result[entry[0]];
+    const pre = index > 0 && index < sortedResult.length ? '\r\n' : '';
     // eslint-disable-next-line no-console
-    console.info(`${index > 0 && index < entries.length ? '\r\n' : ''}${entry[0]}`);
-    logMeasureResult(entry[1]);
+    console.info(`${pre}#${mr.rank} ${entry[0]}`);
+    logMeasureResult(mr);
   });
 }
 
