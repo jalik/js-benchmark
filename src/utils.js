@@ -28,7 +28,7 @@
  * @param {number} iterations
  * @return {number}
  */
-function calculateIps(time, iterations) {
+export function calculateIps(time, iterations) {
   const ratio = 1000 / time;
   return iterations * ratio;
 }
