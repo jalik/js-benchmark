@@ -9,10 +9,10 @@
 
 ## Measure a single function
 
-To measure a single function, use `measure(func, iterations: number): MeasureResult`.
+To measure a single function, use `measure(func, iterations)`.
 
 ```js
-import { measure } from "@jalik/benchmark";
+import { measure } from '@jalik/benchmark';
 
 function logHelloWorld() {
   console.log('hello world');
@@ -22,7 +22,7 @@ function logHelloWorld() {
 const result = measure(logHelloWorld, 1000);
 ```
 
-Which returns a `MeasureResult` object defined as below:
+The result object of a measure looks like this:
 
 ```typescript
 interface MeasureResult {
@@ -38,8 +38,14 @@ interface MeasureResult {
 }
 ```
 
-You can show formatted result in the console by using `logMeasureResult(result: MeasureResult)`,
-which outputs something like this:
+You can show measure result in the console with `logMeasureResult(result)`.
+
+```js
+import { logMeasureResult } from '@jalik/benchmark';
+
+// const result = measure(func, iterations);
+logMeasureResult(result);
+```
 
 ```text
 iterations/s: 82 ±-0.36%
@@ -52,10 +58,10 @@ slowest: 24.43 ms
 
 ## Measure several functions
 
-To measure several functions, use `benchmark(funcs, iterations: number): BenchmarkResult`.
+To measure several functions, use `benchmark(funcs, iterations)`.
 
 ```js
-import { benchmark } from "@jalik/benchmark";
+import { benchmark } from '@jalik/benchmark';
 
 function incrementPlusPlus() {
   for (let i = 0; i < 10000; i++) {
@@ -78,12 +84,43 @@ const funcs = {
 const result = benchmark(funcs, 1000);
 ```
 
-Which returns a `BenchmarkResult` object defined as below:
+The result object of a benchmark looks like this:
 
 ```typescript
 interface BenchmarkResult {
   [key: string]: MeasureResult;
 }
+```
+
+You can show benchmark result in the console with `logBenchmarkResult(result)`.
+
+```js
+import { logBenchmarkResult } from '@jalik/benchmark';
+
+const result = benchmark({
+  doSomethingSlow: () => { /* ... */ },
+  doSomethingFast: () => { /* ... */ },
+}, 1000);
+
+logBenchmarkResult(result);
+```
+
+```text
+#1 doSomethingFast
+iterations/s: 1250 ±0.00%
+total: 8.00 ms
+average: 0.80 ms
+median: 1.00 ms
+fastest: 0.00 ms
+slowest: 1.00 ms
+
+#2 doSomethingSlow
+iterations/s: 40 ±0.00%
+total: 250.00 ms
+average: 25.00 ms
+median: 25.00 ms
+fastest: 24.00 ms
+slowest: 27.00 ms
 ```
 
 ## Changelog
