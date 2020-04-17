@@ -90,9 +90,10 @@ export function formatMillis(time) {
 /**
  * Returns the maximal value of numbers.
  * @param {number[]} numbers
- * @return {number}
+ * @return {null|number}
  */
 export function max(numbers) {
+  if (numbers.length === 0) return null;
   let num = -Infinity;
 
   for (let i = 0; i < numbers.length; i += 1) {
@@ -127,9 +128,10 @@ export function median(numbers) {
 /**
  * Returns the minimal value of numbers.
  * @param {number[]} numbers
- * @return {number}
+ * @return {null|number}
  */
 export function min(numbers) {
+  if (numbers.length === 0) return null;
   let num = Infinity;
 
   for (let i = 0; i < numbers.length; i += 1) {
