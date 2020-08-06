@@ -1,5 +1,8 @@
 # Changelog
 
+## v1.1.1
+- Updates dependencies
+
 ## v1.1.0
 - Fixes measure and benchmark results when `performance.now()` is not available
 - Fixes some internal functions
