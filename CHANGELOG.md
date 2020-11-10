@@ -1,19 +1,23 @@
 # Changelog
 
+## v1.1.3
+- Added `esnext` and `sideEffects` in package.json
+- Upgraded dependencies
+
 ## v1.1.2
-- Upgrades dependencies
+- Upgraded dependencies
 
 ## v1.1.1
-- Upgrades dependencies
+- Upgraded dependencies
 
 ## v1.1.0
-- Fixes measure and benchmark results when `performance.now()` is not available
-- Fixes some internal functions
+- Fixed measure and benchmark results when `performance.now()` is not available
+- Fixed some internal functions
 - Changes how test name are displayed in `logBenchmarkResult()`
-- Exports `logBenchmarkResult` and `logMeasureResult` in main package file
-- Displays benchmark result sorted from fastest to slowest in `logBenchmarkResult()`
-- Adds a `rank` attribute to each benchmark result
-- Adds unit tests for utils functions
+- Export `logBenchmarkResult` and `logMeasureResult` in main package file
+- Display benchmark result sorted from fastest to slowest in `logBenchmarkResult()`
+- Added a `rank` attribute to each benchmark result
+- Added unit tests for utils functions
 
 ## v1.0.0
 - First public release
