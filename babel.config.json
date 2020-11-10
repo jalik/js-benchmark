@@ -1,7 +1,7 @@
 {
   "plugins": [
     "@babel/plugin-transform-runtime",
-    "plugin-syntax-export-default-from"
+    "@babel/plugin-syntax-export-default-from"
   ],
   "presets": [
     "@babel/preset-env"
