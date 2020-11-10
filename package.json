@@ -20,6 +20,8 @@
     "url": "https://github.com/jalik/js-benchmark/issues"
   },
   "main": "dist/index.js",
+  "esnext": "src/index.js",
+  "sideEffects": false,
   "scripts": {
     "build": "babel src -d dist",
     "clean": "rimraf dist",
