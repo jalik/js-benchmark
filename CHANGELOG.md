@@ -1,5 +1,8 @@
 # Changelog
 
+## v1.1.4
+- Upgraded dependencies
+
 ## v1.1.3
 - Added `esnext` and `sideEffects` in package.json
 - Upgraded dependencies
