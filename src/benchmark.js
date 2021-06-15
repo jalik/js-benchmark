@@ -24,8 +24,43 @@
 
 import {
   logMeasureResult,
+  measure,
   measureSync,
 } from './measure';
+
+/**
+ * Measures the execution times of several async functions.
+ * @param asyncJobs
+ * @param {number} iterations
+ * @return {Promise<*>}
+ */
+export function benchmark(asyncJobs, iterations = 1) {
+  const promises = [];
+  const measures = {};
+
+  // Measure functions synchronously.
+  const entries = Object.entries(asyncJobs);
+  for (let i = 0; i < entries.length; i += 1) {
+    const [name, asyncFunc] = entries[i];
+    promises.push(
+      measure(asyncFunc, iterations)
+        .then((result) => [name, result]),
+    );
+  }
+
+  return Promise.all(promises)
+    .then((results) => {
+      // Sort result from fastest to slowest.
+      const sortedResults = results
+        .sort((a, b) => a[1].total - b[1].total);
+
+      // Assign rank to each function result.
+      sortedResults.forEach(([name, result], index) => {
+        measures[name] = { ...result, rank: index + 1 };
+      });
+      return measures;
+    });
+}
 
 /**
  * Measures the execution times of several functions.
@@ -45,14 +80,12 @@ export function benchmarkSync(jobs, iterations = 1) {
 
   // Sort result from fastest to slowest.
   const sortedResult = Object.entries(result)
-    .map((entry) => [entry[0], entry[1].total])
-    .sort((a, b) => a[1] - b[1]);
+    .sort((a, b) => a[1].total - b[1].total);
 
   // Assign rank to each function result.
   sortedResult.forEach((r, index) => {
     result[r[0]].rank = index + 1;
   });
-
   return result;
 }
 

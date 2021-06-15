@@ -22,7 +22,65 @@
  * SOFTWARE.
  */
 
-import { benchmarkSync } from '../src/benchmark';
+import {
+  benchmark,
+  benchmarkSync,
+} from '../src/benchmark';
+
+describe('benchmark(funcs, iterations)', () => {
+  const counters = [0, 0];
+  const iterations = 100;
+  const doWorkAsync = () => (
+    new Promise((resolve) => {
+      setTimeout(() => {
+        counters[0] += 1;
+        resolve(counters[0]);
+      }, 1000);
+    })
+  );
+  const doWorkAsync2 = () => (
+    new Promise((resolve) => {
+      setTimeout(() => {
+        counters[1] += 1;
+        resolve(counters[1]);
+      }, 2000);
+    })
+  );
+  const funcs = {
+    doWorkAsync,
+    doWorkAsync2,
+  };
+  const promise = benchmark(funcs, iterations);
+
+  it('should return a Promise', () => {
+    expect(promise).toBeInstanceOf(Promise);
+  });
+
+  it('should return a result for each func', () => (
+    promise.then((r) => {
+      Object.entries(funcs).forEach(([name]) => {
+        expect(typeof r[name]).not.toBeNull();
+        expect(typeof r[name]).toBe('object');
+      });
+    })
+  ));
+
+  it('should return a rank for each func result', () => (
+    promise.then((r) => {
+      Object.entries(funcs).forEach(([name]) => {
+        expect(typeof r[name].rank).toBe('number');
+      });
+    })
+  ));
+
+  it('should call each func {iterations} times', () => (
+    promise.then(() => {
+      Object.entries(funcs).forEach((kv, index) => {
+        expect(counters[index]).toBe(iterations);
+      });
+    })
+  ));
+});
 
 describe('benchmarkSync(funcs, iterations)', () => {
   const counters = [0, 0];

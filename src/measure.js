@@ -29,6 +29,26 @@ import {
 } from './utils';
 
 /**
+ * Measures the execution times of an async function.
+ * @param {function} asyncFunc
+ * @param {number} iterations
+ * @return {Promise<*>}
+ */
+export function measure(asyncFunc, iterations = 1) {
+  const promises = [];
+
+  for (let i = 0; i < iterations; i += 1) {
+    const time = currentMillis();
+    promises.push(asyncFunc()
+      .then(() => currentMillis() - time)
+      .catch((error) => { throw error; }));
+  }
+  return Promise
+    .all(promises)
+    .then((times) => calculateStats(times));
+}
+
+/**
  * Measures the execution times of a function.
  * @param {function} func
  * @param {number} iterations
