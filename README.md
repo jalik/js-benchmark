@@ -9,17 +9,17 @@
 
 ## Measure a single function
 
-To measure a single function, use `measure(func, iterations)`.
+To measure a single function, use `measureSync(func, iterations)`.
 
 ```js
-import { measure } from '@jalik/benchmark';
+import { measureSync } from '@jalik/benchmark';
 
 function logHelloWorld() {
   console.log('hello world');
 }
 
 // Run function 1000 times
-const result = measure(logHelloWorld, 1000);
+const result = measureSync(logHelloWorld, 1000);
 ```
 
 The result object of a measure looks like this:
@@ -43,7 +43,7 @@ You can show measure result in the console with `logMeasureResult(result)`.
 ```js
 import { logMeasureResult } from '@jalik/benchmark';
 
-// const result = measure(func, iterations);
+// const result = measureSync(func, iterations);
 logMeasureResult(result);
 ```
 
@@ -58,10 +58,10 @@ slowest: 24.43 ms
 
 ## Measure several functions
 
-To measure several functions, use `benchmark(funcs, iterations)`.
+To measure several functions, use `benchmarkSync(funcs, iterations)`.
 
 ```js
-import { benchmark } from '@jalik/benchmark';
+import { benchmarkSync } from '@jalik/benchmark';
 
 function incrementPlusPlus() {
   for (let i = 0; i < 10000; i++) {
@@ -81,7 +81,7 @@ const funcs = {
 };
 
 // Run each function 1000 times 
-const result = benchmark(funcs, 1000);
+const result = benchmarkSync(funcs, 1000);
 ```
 
 The result object of a benchmark looks like this:
@@ -95,9 +95,9 @@ interface BenchmarkResult {
 You can show benchmark result in the console with `logBenchmarkResult(result)`.
 
 ```js
-import { logBenchmarkResult } from '@jalik/benchmark';
+import { benchmarkSync, logBenchmarkResult } from '@jalik/benchmark';
 
-const result = benchmark({
+const result = benchmarkSync({
   doSomethingSlow: () => { /* ... */ },
   doSomethingFast: () => { /* ... */ },
 }, 1000);

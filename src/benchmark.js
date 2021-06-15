@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2020 Karl STEIN
+ * Copyright (c) 2021 Karl STEIN
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,24 +20,28 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
  */
 
-import measure, { logMeasureResult } from './measure';
+import {
+  logMeasureResult,
+  measureSync,
+} from './measure';
 
 /**
  * Measures the execution times of several functions.
- * @param funcs
+ * @param jobs
  * @param {number} iterations
  * @return {*}
  */
-function benchmark(funcs, iterations = 1) {
+export function benchmarkSync(jobs, iterations = 1) {
   const result = {};
 
-  // Measure functions.
-  Object.entries(funcs).forEach((entry) => {
-    result[entry[0]] = measure(entry[1], iterations);
-  });
+  // Measure functions synchronously.
+  const entries = Object.entries(jobs);
+  for (let i = 0; i < entries.length; i += 1) {
+    const [name, func] = entries[i];
+    result[name] = measureSync(func, iterations);
+  }
 
   // Sort result from fastest to slowest.
   const sortedResult = Object.entries(result)
@@ -71,5 +75,3 @@ export function logBenchmarkResult(result) {
     logMeasureResult(mr);
   });
 }
-
-export default benchmark;

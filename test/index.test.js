@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2018 Karl STEIN
+ * Copyright (c) 2021 Karl STEIN
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,15 +23,15 @@
  */
 
 import {
-  benchmark,
+  benchmarkSync,
   logBenchmarkResult,
   logMeasureResult,
-  measure,
+  measureSync,
 } from '../src/index';
 
-describe('benchmark()', () => {
+describe('benchmarkSync()', () => {
   it('should be importable from index', () => {
-    expect(typeof benchmark).toEqual('function');
+    expect(typeof benchmarkSync).toEqual('function');
   });
 });
 
@@ -47,8 +47,8 @@ describe('logMeasureResult()', () => {
   });
 });
 
-describe('measure()', () => {
+describe('measureSync()', () => {
   it('should be importable from index', () => {
-    expect(typeof measure).toEqual('function');
+    expect(typeof measureSync).toEqual('function');
   });
 });

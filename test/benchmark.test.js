@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2020 Karl STEIN
+ * Copyright (c) 2021 Karl STEIN
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,21 +20,18 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
  */
 
-import benchmark, { logBenchmarkResult } from '../src/benchmark';
+import { benchmarkSync } from '../src/benchmark';
 
-describe('benchmark(funcs, iterations)', () => {
+describe('benchmarkSync(funcs, iterations)', () => {
   const counters = [0, 0];
   const iterations = 100;
   const funcs = {
     test1: () => { counters[0] += 1; },
     test2: () => { counters[1] += 1; },
   };
-  const result = benchmark(funcs, iterations);
-
-  logBenchmarkResult(result);
+  const result = benchmarkSync(funcs, iterations);
 
   it('should return an object', () => {
     expect(result).not.toBeNull();

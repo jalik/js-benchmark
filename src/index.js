@@ -22,12 +22,18 @@
  * SOFTWARE.
  */
 
-import benchmark, { logBenchmarkResult } from './benchmark';
-import measure, { logMeasureResult } from './measure';
+import {
+  benchmarkSync,
+  logBenchmarkResult,
+} from './benchmark';
+import {
+  logMeasureResult,
+  measureSync,
+} from './measure';
 
 export {
-  benchmark,
+  benchmarkSync,
   logBenchmarkResult,
   logMeasureResult,
-  measure,
+  measureSync,
 };
