@@ -4,6 +4,10 @@
 
 - **[BREAKING CHANGE]** Renamed function `measure()` to `measureSync()`
 - **[BREAKING CHANGE]** Renamed function `benchmark()` to `benchmarkSync()`
+- **[BREAKING CHANGE]** Functions `measure()` and `benchmark()` are now used for async code (with
+  promises)
+- Added async function `measure()`
+- Added async function `benchmark()`
 - Upgraded dependencies
 
 ## v1.1.5

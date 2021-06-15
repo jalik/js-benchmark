@@ -23,17 +23,21 @@
  */
 
 import {
+  benchmark,
   benchmarkSync,
   logBenchmarkResult,
 } from './benchmark';
 import {
   logMeasureResult,
+  measure,
   measureSync,
 } from './measure';
 
 export {
+  benchmark,
   benchmarkSync,
   logBenchmarkResult,
   logMeasureResult,
+  measure,
   measureSync,
 };
