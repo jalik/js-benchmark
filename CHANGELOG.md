@@ -1,22 +1,28 @@
 # Changelog
 
 ## v1.1.5
+
 - Upgraded dependencies
 
 ## v1.1.4
+
 - Upgraded dependencies
 
 ## v1.1.3
+
 - Added `esnext` and `sideEffects` in package.json
 - Upgraded dependencies
 
 ## v1.1.2
+
 - Upgraded dependencies
 
 ## v1.1.1
+
 - Upgraded dependencies
 
 ## v1.1.0
+
 - Fixed measure and benchmark results when `performance.now()` is not available
 - Fixed some internal functions
 - Changes how test name are displayed in `logBenchmarkResult()`
@@ -26,4 +32,5 @@
 - Added unit tests for utils functions
 
 ## v1.0.0
+
 - First public release
