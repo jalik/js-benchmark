@@ -7,9 +7,16 @@
 [![GitHub issues](https://img.shields.io/github/issues/jalik/js-benchmark.svg)](https://github.com/jalik/js-benchmark/issues)
 ![npm](https://img.shields.io/npm/dt/@jalik/benchmark.svg)
 
+## Features
+
+- Functions to measure a single function
+- Functions to measure and compare different functions
+- Works with sync and async code
+- Included functions to format and display results in the console
+
 ## Measure a single function
 
-To measure a single function, use `measureSync(func, iterations)`.
+To measure a single synchronous function, use `measureSync(func, iterations)`.
 
 ```js
 import { measureSync } from '@jalik/benchmark';
@@ -20,6 +27,23 @@ function logHelloWorld() {
 
 // Run function 1000 times
 const result = measureSync(logHelloWorld, 1000);
+```
+
+To measure an asynchronous function, use `measure(asyncFunc, iterations)`.
+
+```js
+import { measure } from '@jalik/benchmark';
+
+function logHelloWorld() {
+  setTimeout(() => {
+    console.log('hello world')
+  }, 2000);
+}
+
+// Run function 100 times
+measure(logHelloWorld, 100).then((result) => {
+  // do something with the result...
+});
 ```
 
 The result object of a measure looks like this:
@@ -43,8 +67,17 @@ You can show measure result in the console with `logMeasureResult(result)`.
 ```js
 import { logMeasureResult } from '@jalik/benchmark';
 
-// const result = measureSync(func, iterations);
-logMeasureResult(result);
+const test = () => console.log("Hello World");
+const iterations = 1000;
+
+// sync version.
+const result1 = measureSync(test, iterations);
+logMeasureResult(result1);
+
+// async version.
+measure(test, iterations).then((result2) => {
+  logMeasureResult(result2);
+});
 ```
 
 ```text
@@ -58,7 +91,7 @@ slowest: 24.43 ms
 
 ## Measure several functions
 
-To measure several functions, use `benchmarkSync(funcs, iterations)`.
+To measure several synchronous functions, use `benchmarkSync(jobs, iterations)`.
 
 ```js
 import { benchmarkSync } from '@jalik/benchmark';
@@ -75,13 +108,37 @@ function incrementPlusEqual() {
   }
 }
 
-const funcs = {
+const jobs = {
   incrementPlusPlus,
   incrementPlusEqual,
 };
 
 // Run each function 1000 times 
-const result = benchmarkSync(funcs, 1000);
+const result = benchmarkSync(jobs, 1000);
+```
+
+To measure several asynchronous functions, use `benchmark(jobs, iterations)`.
+
+```js
+import { benchmark } from '@jalik/benchmark';
+
+function job1() {
+  // return promise...;
+}
+
+function job2() {
+  // return promise...;
+}
+
+const jobs = {
+  job1,
+  job2,
+};
+
+// Run each function 1000 times 
+benchmark(jobs, 1000).then((result) => {
+  // do something with the result
+});
 ```
 
 The result object of a benchmark looks like this:
@@ -95,14 +152,28 @@ interface BenchmarkResult {
 You can show benchmark result in the console with `logBenchmarkResult(result)`.
 
 ```js
-import { benchmarkSync, logBenchmarkResult } from '@jalik/benchmark';
+import {
+  benchmark,
+  benchmarkSync,
+  logBenchmarkResult
+} from '@jalik/benchmark';
 
-const result = benchmarkSync({
+// sync version
+const result1 = benchmarkSync({
   doSomethingSlow: () => { /* ... */ },
   doSomethingFast: () => { /* ... */ },
 }, 1000);
 
-logBenchmarkResult(result);
+logBenchmarkResult(result1);
+
+// async version
+benchmarkSync({
+  doSomethingSlow: () => { /* ... */ },
+  doSomethingFast: () => { /* ... */ },
+}, 1000).then((result2) => {
+  logBenchmarkResult(result2);
+});
+
 ```
 
 ```text
