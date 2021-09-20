@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.0.1
+
+- Upgraded dependencies
+
 ## v2.0.0
 
 - **[BREAKING CHANGE]** Renamed function `measure()` to `measureSync()`
