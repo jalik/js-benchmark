@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.0.2 (2022-10-18)
+
+- Upgraded dependencies
+
 ## v2.0.1 (2021-09-20)
 
 - Upgraded dependencies
