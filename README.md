@@ -21,7 +21,7 @@ To measure a single synchronous function, use `measureSync(func, iterations)`.
 ```js
 import { measureSync } from '@jalik/benchmark';
 
-function logHelloWorld() {
+function logHelloWorld () {
   console.log('hello world');
 }
 
@@ -34,7 +34,7 @@ To measure an asynchronous function, use `measure(asyncFunc, iterations)`.
 ```js
 import { measure } from '@jalik/benchmark';
 
-function logHelloWorld() {
+function logHelloWorld () {
   setTimeout(() => {
     console.log('hello world')
   }, 2000);
@@ -96,13 +96,13 @@ To measure several synchronous functions, use `benchmarkSync(jobs, iterations)`.
 ```js
 import { benchmarkSync } from '@jalik/benchmark';
 
-function incrementPlusPlus() {
+function incrementPlusPlus () {
   for (let i = 0; i < 10000; i++) {
     // do something
   }
 }
 
-function incrementPlusEqual() {
+function incrementPlusEqual () {
   for (let i = 0; i < 10000; i += 1) {
     // do something
   }
@@ -122,11 +122,11 @@ To measure several asynchronous functions, use `benchmark(jobs, iterations)`.
 ```js
 import { benchmark } from '@jalik/benchmark';
 
-function job1() {
+function job1 () {
   // return promise...;
 }
 
-function job2() {
+function job2 () {
   // return promise...;
 }
 

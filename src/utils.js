@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2020 Karl STEIN
+ * Copyright (c) 2023 Karl STEIN
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,9 +28,9 @@
  * @param {number} iterations
  * @return {number}
  */
-export function calculateIps(time, iterations) {
-  const ratio = 1000 / time;
-  return iterations * ratio;
+export function calculateIps (time, iterations) {
+  const ratio = 1000 / time
+  return iterations * ratio
 }
 
 /**
@@ -48,20 +48,20 @@ export function calculateIps(time, iterations) {
  *   total: number,
  * }}
  */
-export function calculateStats(times) {
+export function calculateStats (times) {
   // eslint-disable-next-line no-use-before-define
-  const total = sum(times);
-  const average = total / times.length;
-  const ips = calculateIps(total, times.length);
+  const total = sum(times)
+  const average = total / times.length
+  const ips = calculateIps(total, times.length)
   // eslint-disable-next-line no-use-before-define
-  const ipsRounded = roundToNearest(ips);
-  const ipsAccuracy = ips - ipsRounded;
+  const ipsRounded = roundToNearest(ips)
+  const ipsAccuracy = ips - ipsRounded
   // eslint-disable-next-line no-use-before-define
-  const med = median(times);
+  const med = median(times)
   // eslint-disable-next-line no-use-before-define
-  const fastest = min(times);
+  const fastest = min(times)
   // eslint-disable-next-line no-use-before-define
-  const slowest = max(times);
+  const slowest = max(times)
   return {
     average,
     fastest,
@@ -72,18 +72,19 @@ export function calculateStats(times) {
     iterations: times.length,
     median: med,
     slowest,
-    total,
-  };
+    total
+  }
 }
 
 /**
- * Returns the current time in milliseconds (with floating precision if supported).
+ * Returns the current time in milliseconds (with floating precision if
+ * supported).
  * @return {number}
  */
-export function currentMillis() {
+export function currentMillis () {
   return typeof performance !== 'undefined' && 'now' in performance
     ? performance.now()
-    : Date.now();
+    : Date.now()
 }
 
 /**
@@ -91,11 +92,11 @@ export function currentMillis() {
  * @param {number} time
  * @return {string}
  */
-export function formatMillis(time) {
+export function formatMillis (time) {
   // eslint-disable-next-line no-restricted-globals
   return (typeof time === 'number' && !isNaN(time))
     ? time.toFixed(2)
-    : null;
+    : null
 }
 
 /**
@@ -103,16 +104,16 @@ export function formatMillis(time) {
  * @param {number[]} numbers
  * @return {null|number}
  */
-export function max(numbers) {
-  if (numbers.length === 0) return null;
-  let num = -Infinity;
+export function max (numbers) {
+  if (numbers.length === 0) return null
+  let num = -Infinity
 
   for (let i = 0; i < numbers.length; i += 1) {
     if (numbers[i] > num) {
-      num = numbers[i];
+      num = numbers[i]
     }
   }
-  return num;
+  return num
 }
 
 /**
@@ -120,20 +121,20 @@ export function max(numbers) {
  * @param {number[]} numbers
  * @return {null|number}
  */
-export function median(numbers) {
-  if (numbers.length === 0) return null;
-  const sortedNumbers = [...numbers];
+export function median (numbers) {
+  if (numbers.length === 0) return null
+  const sortedNumbers = [...numbers]
 
   for (let i = 0; i < numbers.length; i += 1) {
     if (typeof numbers[i] === 'number') {
-      sortedNumbers.push(numbers[i]);
+      sortedNumbers.push(numbers[i])
     }
   }
-  sortedNumbers.sort();
-  const half = Math.floor(sortedNumbers.length / 2);
+  sortedNumbers.sort()
+  const half = Math.floor(sortedNumbers.length / 2)
   return sortedNumbers.length % 2
     ? sortedNumbers[half]
-    : (sortedNumbers[half - 1] + sortedNumbers[half]) / 2.0;
+    : (sortedNumbers[half - 1] + sortedNumbers[half]) / 2.0
 }
 
 /**
@@ -141,16 +142,16 @@ export function median(numbers) {
  * @param {number[]} numbers
  * @return {null|number}
  */
-export function min(numbers) {
-  if (numbers.length === 0) return null;
-  let num = Infinity;
+export function min (numbers) {
+  if (numbers.length === 0) return null
+  let num = Infinity
 
   for (let i = 0; i < numbers.length; i += 1) {
     if (numbers[i] < num) {
-      num = numbers[i];
+      num = numbers[i]
     }
   }
-  return num;
+  return num
 }
 
 /**
@@ -159,11 +160,11 @@ export function min(numbers) {
  * @param precision
  * @return {number}
  */
-export function roundToNearest(number, precision = 0) {
+export function roundToNearest (number, precision = 0) {
   // https://stackoverflow.com/a/51166559/2881350
-  const m = 10 ** precision;
-  const p = 17 - precision - (Math.round(number * m) / m).toString().length;
-  return Math.round(number * m + 0.1 ** p) / m;
+  const m = 10 ** precision
+  const p = 17 - precision - (Math.round(number * m) / m).toString().length
+  return Math.round(number * m + 0.1 ** p) / m
 }
 
 /**
@@ -171,14 +172,14 @@ export function roundToNearest(number, precision = 0) {
  * @param numbers
  * @return {null|number}
  */
-export function sum(numbers) {
-  if (numbers.length === 0) return null;
-  let total = 0;
+export function sum (numbers) {
+  if (numbers.length === 0) return null
+  let total = 0
 
   for (let i = 0; i < numbers.length; i += 1) {
     if (typeof numbers[i] === 'number') {
-      total += numbers[i];
+      total += numbers[i]
     }
   }
-  return total;
+  return total
 }

@@ -27,87 +27,88 @@ import { benchmark, benchmarkSync } from '../src'
 import { asyncJob, job } from './lib'
 
 describe('benchmark(funcs, iterations)', () => {
-  const iterations = 1;
-  const job1 = jest.fn(() => asyncJob(1));
-  const job2 = jest.fn(() => asyncJob(2));
-  const job3 = jest.fn(() => asyncJob(3));
-  const funcs = { job2, job1, job3 };
-  const promise = benchmark(funcs, iterations);
+  const iterations = 1
+  const job1 = jest.fn(() => asyncJob(1))
+  const job2 = jest.fn(() => asyncJob(2))
+  const job3 = jest.fn(() => asyncJob(3))
+  const funcs = { job2, job1, job3 }
+  const promise = benchmark(funcs, iterations)
 
   it('should return a Promise', () => {
-    expect(promise).toBeInstanceOf(Promise);
-  });
+    expect(promise).toBeInstanceOf(Promise)
+  })
 
   it('should return a result for each func', async () => {
-    const result = await promise;
+    const result = await promise
     Object.entries(funcs).forEach(([name]) => {
-      expect(typeof result[name]).not.toBeNull();
-      expect(typeof result[name]).toBe('object');
-    });
-  });
+      expect(typeof result[name]).not.toBeNull()
+      expect(typeof result[name]).toBe('object')
+    })
+  })
 
   it('should return a rank for each func result', async () => {
-    const result = await promise;
+    const result = await promise
     Object.entries(funcs).forEach(([name]) => {
-      expect(typeof result[name].rank).toBe('number');
-    });
-  });
+      expect(typeof result[name].rank).toBe('number')
+    })
+  })
 
   it('should call each func {iterations} times', async () => {
-    await promise;
+    await promise
     Object.values(funcs).forEach((fn) => {
-      expect(fn).toBeCalledTimes(iterations + 1); // +1 is needed to cancel cold start time
-    });
-  });
+      expect(fn).toBeCalledTimes(iterations + 1) // +1 is needed to cancel
+      // cold start time
+    })
+  })
 
   it('should return the same number of results as number of jobs', async () => {
-    const result = await promise;
-    expect(Object.keys(result).length).toBe(Object.keys(funcs).length);
-  });
+    const result = await promise
+    expect(Object.keys(result).length).toBe(Object.keys(funcs).length)
+  })
 
   it('should return ranked jobs', async () => {
-    const result = await promise;
-    expect(result.job1.rank).toBe(1);
-    expect(result.job2.rank).toBe(2);
-    expect(result.job3.rank).toBe(3);
-  });
-});
+    const result = await promise
+    expect(result.job1.rank).toBe(1)
+    expect(result.job2.rank).toBe(2)
+    expect(result.job3.rank).toBe(3)
+  })
+})
 
 describe('benchmarkSync(funcs, iterations)', () => {
-  const iterations = 100;
-  const job1 = jest.fn(() => job(1));
-  const job2 = jest.fn(() => job(2));
-  const job3 = jest.fn(() => job(3));
-  const funcs = { job2, job1, job3 };
-  const result = benchmarkSync(funcs, iterations);
+  const iterations = 100
+  const job1 = jest.fn(() => job(1))
+  const job2 = jest.fn(() => job(2))
+  const job3 = jest.fn(() => job(3))
+  const funcs = { job2, job1, job3 }
+  const result = benchmarkSync(funcs, iterations)
 
   it('should return an object', () => {
-    expect(result).not.toBeNull();
-    expect(typeof result).toBe('object');
-  });
+    expect(result).not.toBeNull()
+    expect(typeof result).toBe('object')
+  })
 
   it('should return a result for each func', () => {
     Object.entries(funcs).forEach(([name]) => {
-      expect(typeof result[name]).not.toBeNull();
-      expect(typeof result[name]).toBe('object');
-    });
-  });
+      expect(typeof result[name]).not.toBeNull()
+      expect(typeof result[name]).toBe('object')
+    })
+  })
 
   it('should return a rank for each func result', () => {
     Object.entries(funcs).forEach(([name]) => {
-      expect(typeof result[name].rank).toBe('number');
-    });
-  });
+      expect(typeof result[name].rank).toBe('number')
+    })
+  })
 
   it('should call each func {iterations} times', () => {
     Object.values(funcs).forEach((fn) => {
-      expect(fn).toBeCalledTimes(iterations);
-    });
-  });
+      expect(fn).toBeCalledTimes(iterations)
+    })
+  })
 
   it('should return ranked jobs', () => {
-    expect(result.job1.rank).toBe(1);
-    expect(result.job2.rank).toBe(2);
-    expect(result.job3.rank).toBe(3);
-  });
-});
+    expect(result.job1.rank).toBe(1)
+    expect(result.job2.rank).toBe(2)
+    expect(result.job3.rank).toBe(3)
+  })
+})

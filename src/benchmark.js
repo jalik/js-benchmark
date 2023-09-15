@@ -30,30 +30,30 @@ import { logMeasureResult, measure, measureSync } from './measure'
  * @param {number} iterations
  * @return {Promise<*>}
  */
-export async function benchmark(asyncJobs, iterations = 1) {
-  const results = [];
-  const measures = {};
+export async function benchmark (asyncJobs, iterations = 1) {
+  const results = []
+  const measures = {}
 
   // Measure functions synchronously.
-  const entries = Object.entries(asyncJobs);
+  const entries = Object.entries(asyncJobs)
 
   for (let i = 0; i < entries.length; i += 1) {
-    const [name, asyncFunc] = entries[i];
+    const [name, asyncFunc] = entries[i]
     // eslint-disable-next-line no-await-in-loop
-    const result = await measure(asyncFunc, iterations);
-    results.push([name, result]);
+    const result = await measure(asyncFunc, iterations)
+    results.push([name, result])
     // todo allow pausing between jobs
   }
 
   // Sort result from fastest to slowest.
   const sortedResults = results
-    .sort((a, b) => a[1].total - b[1].total);
+    .sort((a, b) => a[1].total - b[1].total)
 
   // Assign rank to each function result.
   sortedResults.forEach(([name, result], index) => {
-    measures[name] = { ...result, rank: index + 1 };
-  });
-  return measures;
+    measures[name] = { ...result, rank: index + 1 }
+  })
+  return measures
 }
 
 /**
@@ -62,44 +62,44 @@ export async function benchmark(asyncJobs, iterations = 1) {
  * @param {number} iterations
  * @return {*}
  */
-export function benchmarkSync(jobs, iterations = 1) {
-  const result = {};
+export function benchmarkSync (jobs, iterations = 1) {
+  const result = {}
 
   // Measure functions synchronously.
-  const entries = Object.entries(jobs);
+  const entries = Object.entries(jobs)
 
   for (let i = 0; i < entries.length; i += 1) {
-    const [name, func] = entries[i];
-    result[name] = measureSync(func, iterations);
+    const [name, func] = entries[i]
+    result[name] = measureSync(func, iterations)
   }
 
   // Sort result from fastest to slowest.
   const sortedResult = Object.entries(result)
-    .sort((a, b) => a[1].total - b[1].total);
+    .sort((a, b) => a[1].total - b[1].total)
 
   // Assign rank to each function result.
   sortedResult.forEach((r, index) => {
-    result[r[0]].rank = index + 1;
-  });
-  return result;
+    result[r[0]].rank = index + 1
+  })
+  return result
 }
 
 /**
  * Displays benchmark result in the console.
  * @param result
  */
-export function logBenchmarkResult(result) {
+export function logBenchmarkResult (result) {
   // Sort result from fastest to slowest.
   const sortedResult = Object.entries(result)
     .map((entry) => [entry[0], entry[1].total])
-    .sort((a, b) => a[1] - b[1]);
+    .sort((a, b) => a[1] - b[1])
 
   // Display each result to console.
   sortedResult.forEach((entry, index) => {
-    const mr = result[entry[0]];
-    const pre = index > 0 && index < sortedResult.length ? '\r\n' : '';
+    const mr = result[entry[0]]
+    const pre = index > 0 && index < sortedResult.length ? '\r\n' : ''
     // eslint-disable-next-line no-console
-    console.info(`${pre}#${mr.rank} ${entry[0]}`);
-    logMeasureResult(mr);
-  });
+    console.info(`${pre}#${mr.rank} ${entry[0]}`)
+    logMeasureResult(mr)
+  })
 }

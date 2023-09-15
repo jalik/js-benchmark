@@ -22,15 +22,15 @@
  * SOFTWARE.
  */
 
-export function job(num) {
-  let result = null;
+export function job (num) {
+  let result = null
 
   for (let i = 0; i < num * 10000; i += 1) {
-    result = i ** i;
+    result = i ** i
   }
-  return result;
+  return result
 }
 
-export async function asyncJob(num) {
-  return job(num);
+export async function asyncJob (num) {
+  return job(num)
 }

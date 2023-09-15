@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2021 Karl STEIN
+ * Copyright (c) 2023 Karl STEIN
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,16 +22,8 @@
  * SOFTWARE.
  */
 
-import {
-  benchmark,
-  benchmarkSync,
-  logBenchmarkResult,
-} from './benchmark';
-import {
-  logMeasureResult,
-  measure,
-  measureSync,
-} from './measure';
+import { benchmark, benchmarkSync, logBenchmarkResult } from './benchmark'
+import { logMeasureResult, measure, measureSync } from './measure'
 
 export {
   benchmark,
@@ -39,5 +31,5 @@ export {
   logBenchmarkResult,
   logMeasureResult,
   measure,
-  measureSync,
-};
+  measureSync
+}

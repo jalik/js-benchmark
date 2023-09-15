@@ -5,7 +5,11 @@
     "jest": true,
     "node": true
   },
-  "extends": "airbnb-base",
+  "extends": [
+    "eslint:recommended",
+    "standard",
+    "plugin:import/recommended"
+  ],
   "plugins": [
     "import",
     "jest"

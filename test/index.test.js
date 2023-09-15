@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2022 Karl STEIN
+ * Copyright (c) 2023 Karl STEIN
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,38 +22,34 @@
  * SOFTWARE.
  */
 
-import {
-  describe,
-  expect,
-  it,
-} from '@jest/globals';
+import { describe, expect, it } from '@jest/globals'
 import {
   benchmarkSync,
   logBenchmarkResult,
   logMeasureResult,
-  measureSync,
-} from '../src/index';
+  measureSync
+} from '../src/index'
 
 describe('benchmarkSync()', () => {
   it('should be importable from index', () => {
-    expect(typeof benchmarkSync).toEqual('function');
-  });
-});
+    expect(typeof benchmarkSync).toEqual('function')
+  })
+})
 
 describe('logBenchmarkResult()', () => {
   it('should be importable from index', () => {
-    expect(typeof logBenchmarkResult).toEqual('function');
-  });
-});
+    expect(typeof logBenchmarkResult).toEqual('function')
+  })
+})
 
 describe('logMeasureResult()', () => {
   it('should be importable from index', () => {
-    expect(typeof logMeasureResult).toEqual('function');
-  });
-});
+    expect(typeof logMeasureResult).toEqual('function')
+  })
+})
 
 describe('measureSync()', () => {
   it('should be importable from index', () => {
-    expect(typeof measureSync).toEqual('function');
-  });
-});
+    expect(typeof measureSync).toEqual('function')
+  })
+})

@@ -27,116 +27,116 @@ import { measure, measureSync } from '../src'
 import { asyncJob, job } from './lib'
 
 describe('measure(func, iterations)', () => {
-  const iterations = 100;
+  const iterations = 100
   const doWorkAsync = async () => {
-    await asyncJob(1);
-  };
-  const promise = measure(doWorkAsync, iterations);
+    await asyncJob(1)
+  }
+  const promise = measure(doWorkAsync, iterations)
 
   it('should return a Promise', () => {
-    expect(promise).toBeInstanceOf(Promise);
-  });
+    expect(promise).toBeInstanceOf(Promise)
+  })
 
   it('should return average time', async () => {
-    const result = await promise;
-    expect(typeof result.average).toBe('number');
-  });
+    const result = await promise
+    expect(typeof result.average).toBe('number')
+  })
 
   it('should return fastest time', async () => {
-    const result = await promise;
-    expect(typeof result.fastest).toBe('number');
-  });
+    const result = await promise
+    expect(typeof result.fastest).toBe('number')
+  })
 
   it('should return iterations per second', async () => {
-    const result = await promise;
-    expect(typeof result.ips).toBe('number');
-  });
+    const result = await promise
+    expect(typeof result.ips).toBe('number')
+  })
 
   it('should return iterations per second accuracy', async () => {
-    const result = await promise;
-    expect(typeof result.ipsAccuracy).toBe('number');
-  });
+    const result = await promise
+    expect(typeof result.ipsAccuracy).toBe('number')
+  })
 
   it('should return rounded iterations per second', async () => {
-    const result = await promise;
-    expect(typeof result.ipsRounded).toBe('number');
-  });
+    const result = await promise
+    expect(typeof result.ipsRounded).toBe('number')
+  })
 
   it('should return number of iterations', async () => {
-    const result = await promise;
-    expect(typeof result.iterations).toBe('number');
-  });
+    const result = await promise
+    expect(typeof result.iterations).toBe('number')
+  })
 
   it('should return median time', async () => {
-    const result = await promise;
-    expect(typeof result.median).toBe('number');
-  });
+    const result = await promise
+    expect(typeof result.median).toBe('number')
+  })
 
   it('should return slowest time', async () => {
-    const result = await promise;
-    expect(typeof result.slowest).toBe('number');
-  });
+    const result = await promise
+    expect(typeof result.slowest).toBe('number')
+  })
 
   it('should return total time', async () => {
-    const result = await promise;
-    expect(typeof result.total).toBe('number');
-  });
+    const result = await promise
+    expect(typeof result.total).toBe('number')
+  })
 
   it('should call func {iterations} times', async () => {
-    const result = await promise;
-    expect(result.iterations).toBe(iterations);
-  });
-});
+    const result = await promise
+    expect(result.iterations).toBe(iterations)
+  })
+})
 
 describe('measureSync(func, iterations)', () => {
-  const iterations = 100;
+  const iterations = 100
   const doWorkSync = () => {
-    job(1);
-  };
-  const result = measureSync(doWorkSync, iterations);
+    job(1)
+  }
+  const result = measureSync(doWorkSync, iterations)
 
   it('should return an object', () => {
-    expect(result).not.toBeNull();
-    expect(typeof result).toBe('object');
-  });
+    expect(result).not.toBeNull()
+    expect(typeof result).toBe('object')
+  })
 
   it('should return average time', () => {
-    expect(typeof result.average).toBe('number');
-  });
+    expect(typeof result.average).toBe('number')
+  })
 
   it('should return fastest time', () => {
-    expect(typeof result.fastest).toBe('number');
-  });
+    expect(typeof result.fastest).toBe('number')
+  })
 
   it('should return iterations per second', () => {
-    expect(typeof result.ips).toBe('number');
-  });
+    expect(typeof result.ips).toBe('number')
+  })
 
   it('should return iterations per second accuracy', () => {
-    expect(typeof result.ipsAccuracy).toBe('number');
-  });
+    expect(typeof result.ipsAccuracy).toBe('number')
+  })
 
   it('should return rounded iterations per second', () => {
-    expect(typeof result.ipsRounded).toBe('number');
-  });
+    expect(typeof result.ipsRounded).toBe('number')
+  })
 
   it('should return number of iterations', () => {
-    expect(typeof result.iterations).toBe('number');
-  });
+    expect(typeof result.iterations).toBe('number')
+  })
 
   it('should return median time', () => {
-    expect(typeof result.median).toBe('number');
-  });
+    expect(typeof result.median).toBe('number')
+  })
 
   it('should return slowest time', () => {
-    expect(typeof result.slowest).toBe('number');
-  });
+    expect(typeof result.slowest).toBe('number')
+  })
 
   it('should return total time', () => {
-    expect(typeof result.total).toBe('number');
-  });
+    expect(typeof result.total).toBe('number')
+  })
 
   it('should call func {iterations} times', () => {
-    expect(result.iterations).toBe(iterations);
-  });
-});
+    expect(result.iterations).toBe(iterations)
+  })
+})

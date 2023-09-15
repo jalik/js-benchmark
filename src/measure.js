@@ -30,19 +30,19 @@ import { calculateStats, currentMillis, formatMillis } from './utils'
  * @param {number} iterations
  * @return {Promise<*>}
  */
-export async function measure(asyncFunc, iterations = 1) {
-  const times = [];
+export async function measure (asyncFunc, iterations = 1) {
+  const times = []
 
   // fixme avoid cold start delay (first call is slower)
-  await asyncFunc();
+  await asyncFunc()
 
   for (let i = 0; i < iterations; i += 1) {
-    times[i] = currentMillis();
+    times[i] = currentMillis()
     // eslint-disable-next-line no-await-in-loop
-    await asyncFunc();
-    times[i] = currentMillis() - times[i];
+    await asyncFunc()
+    times[i] = currentMillis() - times[i]
   }
-  return calculateStats(times);
+  return calculateStats(times)
 }
 
 /**
@@ -51,22 +51,22 @@ export async function measure(asyncFunc, iterations = 1) {
  * @param {number} iterations
  * @return {*}
  */
-export function measureSync(func, iterations = 1) {
-  const times = [];
+export function measureSync (func, iterations = 1) {
+  const times = []
 
   for (let i = 0; i < iterations; i += 1) {
-    times[i] = currentMillis();
-    func();
-    times[i] = currentMillis() - times[i];
+    times[i] = currentMillis()
+    func()
+    times[i] = currentMillis() - times[i]
   }
-  return calculateStats(times);
+  return calculateStats(times)
 }
 
 /**
  * Displays measure result in the console.
  * @param result
  */
-export function logMeasureResult(result) {
+export function logMeasureResult (result) {
   // eslint-disable-next-line no-console
   console.info([
     `iterations/s: ${result.ipsRounded} ±${result.ipsAccuracy.toFixed(2)}%`,
@@ -74,6 +74,6 @@ export function logMeasureResult(result) {
     `average: ${formatMillis(result.average)} ms`,
     `median: ${formatMillis(result.median)} ms`,
     `fastest: ${formatMillis(result.fastest)} ms`,
-    `slowest: ${formatMillis(result.slowest)} ms`,
-  ].join('\r\n'));
+    `slowest: ${formatMillis(result.slowest)} ms`
+  ].join('\r\n'))
 }
