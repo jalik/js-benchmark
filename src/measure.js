@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2021 Karl STEIN
+ * Copyright (c) 2023 Karl STEIN
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,11 +22,7 @@
  * SOFTWARE.
  */
 
-import {
-  calculateStats,
-  currentMillis,
-  formatMillis,
-} from './utils';
+import { calculateStats, currentMillis, formatMillis } from './utils'
 
 /**
  * Measures the execution times of an async function.
@@ -34,18 +30,19 @@ import {
  * @param {number} iterations
  * @return {Promise<*>}
  */
-export function measure(asyncFunc, iterations = 1) {
-  const promises = [];
+export async function measure(asyncFunc, iterations = 1) {
+  const times = [];
+
+  // fixme avoid cold start delay (first call is slower)
+  await asyncFunc();
 
   for (let i = 0; i < iterations; i += 1) {
-    const time = currentMillis();
-    promises.push(asyncFunc()
-      .then(() => currentMillis() - time)
-      .catch((error) => { throw error; }));
+    times[i] = currentMillis();
+    // eslint-disable-next-line no-await-in-loop
+    await asyncFunc();
+    times[i] = currentMillis() - times[i];
   }
-  return Promise
-    .all(promises)
-    .then((times) => calculateStats(times));
+  return calculateStats(times);
 }
 
 /**

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2022 Karl STEIN
+ * Copyright (c) 2023 Karl STEIN
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,78 +22,63 @@
  * SOFTWARE.
  */
 
-import {
-  describe,
-  expect,
-  it,
-} from '@jest/globals';
-import {
-  benchmark,
-  benchmarkSync,
-} from '../src/benchmark';
+import { describe, expect, it, jest } from '@jest/globals'
+import { benchmark, benchmarkSync } from '../src'
+import { asyncJob, job } from './lib'
 
 describe('benchmark(funcs, iterations)', () => {
-  const counters = [0, 0];
-  const iterations = 100;
-  const doWorkAsync = () => (
-    new Promise((resolve) => {
-      setTimeout(() => {
-        counters[0] += 1;
-        resolve(counters[0]);
-      }, 1000);
-    })
-  );
-  const doWorkAsync2 = () => (
-    new Promise((resolve) => {
-      setTimeout(() => {
-        counters[1] += 1;
-        resolve(counters[1]);
-      }, 2000);
-    })
-  );
-  const funcs = {
-    doWorkAsync,
-    doWorkAsync2,
-  };
+  const iterations = 1;
+  const job1 = jest.fn(() => asyncJob(1));
+  const job2 = jest.fn(() => asyncJob(2));
+  const job3 = jest.fn(() => asyncJob(3));
+  const funcs = { job2, job1, job3 };
   const promise = benchmark(funcs, iterations);
 
   it('should return a Promise', () => {
     expect(promise).toBeInstanceOf(Promise);
   });
 
-  it('should return a result for each func', () => (
-    promise.then((r) => {
-      Object.entries(funcs).forEach(([name]) => {
-        expect(typeof r[name]).not.toBeNull();
-        expect(typeof r[name]).toBe('object');
-      });
-    })
-  ));
+  it('should return a result for each func', async () => {
+    const result = await promise;
+    Object.entries(funcs).forEach(([name]) => {
+      expect(typeof result[name]).not.toBeNull();
+      expect(typeof result[name]).toBe('object');
+    });
+  });
 
-  it('should return a rank for each func result', () => (
-    promise.then((r) => {
-      Object.entries(funcs).forEach(([name]) => {
-        expect(typeof r[name].rank).toBe('number');
-      });
-    })
-  ));
+  it('should return a rank for each func result', async () => {
+    const result = await promise;
+    Object.entries(funcs).forEach(([name]) => {
+      expect(typeof result[name].rank).toBe('number');
+    });
+  });
 
-  it('should call each func {iterations} times', () => (
-    promise.then(() => {
-      Object.entries(funcs).forEach((kv, index) => {
-        expect(counters[index]).toBe(iterations);
-      });
-    })
-  ));
+  it('should call each func {iterations} times', async () => {
+    await promise;
+    Object.values(funcs).forEach((fn) => {
+      expect(fn).toBeCalledTimes(iterations + 1); // +1 is needed to cancel cold start time
+    });
+  });
+
+  it('should return the same number of results as number of jobs', async () => {
+    const result = await promise;
+    expect(Object.keys(result).length).toBe(Object.keys(funcs).length);
+  });
+
+  it('should return ranked jobs', async () => {
+    const result = await promise;
+    expect(result.job1.rank).toBe(1);
+    expect(result.job2.rank).toBe(2);
+    expect(result.job3.rank).toBe(3);
+  });
 });
 
 describe('benchmarkSync(funcs, iterations)', () => {
-  const counters = [0, 0];
   const iterations = 100;
-  const funcs = {
-    test1: () => { counters[0] += 1; },
-    test2: () => { counters[1] += 1; },
-  };
+  const job1 = jest.fn(() => job(1));
+  const job2 = jest.fn(() => job(2));
+  const job3 = jest.fn(() => job(3));
+  const funcs = { job2, job1, job3 };
   const result = benchmarkSync(funcs, iterations);
 
   it('should return an object', () => {
@@ -115,8 +100,14 @@ describe('benchmarkSync(funcs, iterations)', () => {
   });
 
   it('should call each func {iterations} times', () => {
-    Object.entries(funcs).forEach((kv, index) => {
-      expect(counters[index]).toBe(iterations);
+    Object.values(funcs).forEach((fn) => {
+      expect(fn).toBeCalledTimes(iterations);
     });
+  });
+
+  it('should return ranked jobs', () => {
+    expect(result.job1.rank).toBe(1);
+    expect(result.job2.rank).toBe(2);
+    expect(result.job3.rank).toBe(3);
   });
 });

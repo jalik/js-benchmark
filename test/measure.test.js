@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2022 Karl STEIN
+ * Copyright (c) 2023 Karl STEIN
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,99 +22,76 @@
  * SOFTWARE.
  */
 
-import {
-  describe,
-  expect,
-  it,
-} from '@jest/globals';
-import {
-  measure,
-  measureSync,
-} from '../src/measure';
+import { describe, expect, it } from '@jest/globals'
+import { measure, measureSync } from '../src'
+import { asyncJob, job } from './lib'
 
 describe('measure(func, iterations)', () => {
   const iterations = 100;
-  const doWorkAsync = () => (
-    new Promise((resolve) => {
-      setTimeout(() => { resolve(1); }, 1000);
-    })
-  );
+  const doWorkAsync = async () => {
+    await asyncJob(1);
+  };
   const promise = measure(doWorkAsync, iterations);
 
   it('should return a Promise', () => {
     expect(promise).toBeInstanceOf(Promise);
   });
 
-  it('should return average time', () => (
-    promise.then((r) => {
-      expect(typeof r.average).toBe('number');
-    })
-  ));
+  it('should return average time', async () => {
+    const result = await promise;
+    expect(typeof result.average).toBe('number');
+  });
 
-  it('should return fastest time', () => (
-    promise.then((r) => {
-      expect(typeof r.fastest).toBe('number');
-    })
-  ));
+  it('should return fastest time', async () => {
+    const result = await promise;
+    expect(typeof result.fastest).toBe('number');
+  });
 
-  it('should return iterations per second', () => (
-    promise.then((r) => {
-      expect(typeof r.ips).toBe('number');
-    })
-  ));
+  it('should return iterations per second', async () => {
+    const result = await promise;
+    expect(typeof result.ips).toBe('number');
+  });
 
-  it('should return iterations per second accuracy', () => (
-    promise.then((r) => {
-      expect(typeof r.ipsAccuracy).toBe('number');
-    })
-  ));
+  it('should return iterations per second accuracy', async () => {
+    const result = await promise;
+    expect(typeof result.ipsAccuracy).toBe('number');
+  });
 
-  it('should return rounded iterations per second', () => (
-    promise.then((r) => {
-      expect(typeof r.ipsRounded).toBe('number');
-    })
-  ));
+  it('should return rounded iterations per second', async () => {
+    const result = await promise;
+    expect(typeof result.ipsRounded).toBe('number');
+  });
 
-  it('should return number of iterations', () => (
-    promise.then((r) => {
-      expect(typeof r.iterations).toBe('number');
-    })
-  ));
+  it('should return number of iterations', async () => {
+    const result = await promise;
+    expect(typeof result.iterations).toBe('number');
+  });
 
-  it('should return median time', () => (
-    promise.then((r) => {
-      expect(typeof r.median).toBe('number');
-    })
-  ));
+  it('should return median time', async () => {
+    const result = await promise;
+    expect(typeof result.median).toBe('number');
+  });
 
-  it('should return slowest time', () => (
-    promise.then((r) => {
-      expect(typeof r.slowest).toBe('number');
-    })
-  ));
+  it('should return slowest time', async () => {
+    const result = await promise;
+    expect(typeof result.slowest).toBe('number');
+  });
 
-  it('should return total time', () => (
-    promise.then((r) => {
-      expect(typeof r.total).toBe('number');
-    })
-  ));
+  it('should return total time', async () => {
+    const result = await promise;
+    expect(typeof result.total).toBe('number');
+  });
 
-  it('should call func {iterations} times', () => (
-    promise.then((r) => {
-      expect(r.iterations).toBe(iterations);
-    })
-  ));
+  it('should call func {iterations} times', async () => {
+    const result = await promise;
+    expect(result.iterations).toBe(iterations);
+  });
 });
 
 describe('measureSync(func, iterations)', () => {
   const iterations = 100;
   const doWorkSync = () => {
-    const arr = [];
-    for (let i = 0; i < 1000; i += 1) {
-      arr.push(i / Math.random() ** 10);
-    }
-    arr.sort();
-    return arr;
+    job(1);
   };
   const result = measureSync(doWorkSync, iterations);
 

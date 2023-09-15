@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2021 Karl STEIN
+ * Copyright (c) 2023 Karl STEIN
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,11 +22,7 @@
  * SOFTWARE.
  */
 
-import {
-  logMeasureResult,
-  measure,
-  measureSync,
-} from './measure';
+import { logMeasureResult, measure, measureSync } from './measure'
 
 /**
  * Measures the execution times of several async functions.
@@ -34,32 +30,30 @@ import {
  * @param {number} iterations
  * @return {Promise<*>}
  */
-export function benchmark(asyncJobs, iterations = 1) {
-  const promises = [];
+export async function benchmark(asyncJobs, iterations = 1) {
+  const results = [];
   const measures = {};
 
   // Measure functions synchronously.
   const entries = Object.entries(asyncJobs);
+
   for (let i = 0; i < entries.length; i += 1) {
     const [name, asyncFunc] = entries[i];
-    promises.push(
-      measure(asyncFunc, iterations)
-        .then((result) => [name, result]),
-    );
+    // eslint-disable-next-line no-await-in-loop
+    const result = await measure(asyncFunc, iterations);
+    results.push([name, result]);
+    // todo allow pausing between jobs
   }
 
-  return Promise.all(promises)
-    .then((results) => {
-      // Sort result from fastest to slowest.
-      const sortedResults = results
-        .sort((a, b) => a[1].total - b[1].total);
+  // Sort result from fastest to slowest.
+  const sortedResults = results
+    .sort((a, b) => a[1].total - b[1].total);
 
-      // Assign rank to each function result.
-      sortedResults.forEach(([name, result], index) => {
-        measures[name] = { ...result, rank: index + 1 };
-      });
-      return measures;
-    });
+  // Assign rank to each function result.
+  sortedResults.forEach(([name, result], index) => {
+    measures[name] = { ...result, rank: index + 1 };
+  });
+  return measures;
 }
 
 /**
@@ -73,6 +67,7 @@ export function benchmarkSync(jobs, iterations = 1) {
 
   // Measure functions synchronously.
   const entries = Object.entries(jobs);
+
   for (let i = 0; i < entries.length; i += 1) {
     const [name, func] = entries[i];
     result[name] = measureSync(func, iterations);
