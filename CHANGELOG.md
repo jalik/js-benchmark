@@ -1,5 +1,10 @@
 # Changelog
 
+## v2.0.3 (2023-09-15)
+
+- Fixed async functions (benchmark and measure) to not run in parallel
+- Upgraded dependencies
+
 ## v2.0.2 (2022-10-18)
 
 - Upgraded dependencies
