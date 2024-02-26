@@ -14,6 +14,15 @@
 - Works with sync and async code
 - Included functions to format and display results in the console
 
+## Installing
+
+```shell
+npm i -P @jalik/benchmark
+```
+```shell
+yarn add @jalik/benchmark
+```
+
 ## Measure a single function
 
 To measure a single synchronous function, use `measureSync(func, iterations)`.
