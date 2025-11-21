@@ -22,9 +22,9 @@
  * SOFTWARE.
  */
 
-import { describe, expect, it } from '@jest/globals'
-import { measure, measureSync } from '../src/index.ts'
-import { asyncJob, job } from './lib.ts'
+import { describe, expect, it } from 'vitest'
+import { measure, measureSync } from '../src'
+import { asyncJob, job } from './lib'
 
 describe('measure(func, iterations)', () => {
   const iterations = 100

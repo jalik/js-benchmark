@@ -7,3 +7,6 @@
 # Compiled files
 /cjs/
 /esm/
+
+# Coverage
+/coverage/

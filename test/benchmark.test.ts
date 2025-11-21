@@ -22,15 +22,15 @@
  * SOFTWARE.
  */
 
-import { describe, expect, it, jest } from '@jest/globals'
-import { benchmark, benchmarkSync } from '../src/index.ts'
+import { describe, expect, it, vi } from 'vitest'
+import { benchmark, benchmarkSync } from '../src'
 import { asyncJob, job } from './lib'
 
 describe('benchmark(funcs, iterations)', () => {
   const iterations = 1
-  const job1 = jest.fn(() => asyncJob(1))
-  const job2 = jest.fn(() => asyncJob(2))
-  const job3 = jest.fn(() => asyncJob(3))
+  const job1 = vi.fn(() => asyncJob(1000))
+  const job2 = vi.fn(() => asyncJob(2000))
+  const job3 = vi.fn(() => asyncJob(3000))
   const funcs = { job2, job1, job3 }
   const promise = benchmark(funcs, iterations)
 
@@ -76,9 +76,9 @@ describe('benchmark(funcs, iterations)', () => {
 
 describe('benchmarkSync(funcs, iterations)', () => {
   const iterations = 100
-  const job1 = jest.fn(() => job(1))
-  const job2 = jest.fn(() => job(2))
-  const job3 = jest.fn(() => job(3))
+  const job1 = vi.fn(() => job(1000))
+  const job2 = vi.fn(() => job(2000))
+  const job3 = vi.fn(() => job(3000))
   const funcs = { job2, job1, job3 }
   const result = benchmarkSync(funcs, iterations)
 

@@ -22,8 +22,8 @@
  * SOFTWARE.
  */
 
-import { describe, expect, it } from '@jest/globals'
-import { benchmarkSync, logBenchmarkResult, logMeasureResult, measureSync } from '../src/index.ts'
+import { describe, expect, it } from 'vitest'
+import { benchmarkSync, logBenchmarkResult, logMeasureResult, measureSync } from '../src'
 
 describe('benchmarkSync()', () => {
   it('should be importable from index', () => {

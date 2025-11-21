@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-import { describe, expect, it } from '@jest/globals'
+import { describe, expect, it } from 'vitest'
 import {
   calculateIps,
   calculateStats,
@@ -33,7 +33,7 @@ import {
   min,
   roundToNearest,
   sum
-} from '../src/utils.ts'
+} from '../src/utils'
 
 describe('calculateIps(time, iterations)', () => {
   it('should return a number', () => {
@@ -144,13 +144,25 @@ describe('max(numbers)', () => {
   })
 
   it('should ignore null values', () => {
-    expect(max([null, -10, 0, 20])).toBe(20)
-    expect(max([-10, 0, 20, null])).toBe(20)
+    expect(max([
+      // @ts-ignore
+      null,
+      -10, 0, 20])).toBe(20)
+    expect(max([-10, 0, 20,
+      // @ts-ignore
+      null
+    ])).toBe(20)
   })
 
   it('should ignore undefined values', () => {
-    expect(max([undefined, -10, 0, 20])).toBe(20)
-    expect(max([-10, 0, 20, undefined])).toBe(20)
+    expect(max([
+      // @ts-ignore
+      undefined,
+      -10, 0, 20])).toBe(20)
+    expect(max([-10, 0, 20,
+      // @ts-ignore
+      undefined
+    ])).toBe(20)
   })
 })
 
@@ -167,13 +179,25 @@ describe('median(numbers)', () => {
   })
 
   it('should ignore null values', () => {
-    expect(median([null, -10, 0, 20])).toBe(0)
-    expect(median([-10, 0, 20, null])).toBe(0)
+    expect(median([
+      // @ts-ignore
+      null,
+      -10, 0, 20])).toBe(0)
+    expect(median([-10, 0, 20,
+      // @ts-ignore
+      null
+    ])).toBe(0)
   })
 
   it('should ignore undefined values', () => {
-    expect(median([undefined, -10, 0, 20])).toBe(0)
-    expect(median([-10, 0, 20, undefined])).toBe(0)
+    expect(median([
+      // @ts-ignore
+      undefined,
+      -10, 0, 20])).toBe(0)
+    expect(median([-10, 0, 20,
+      // @ts-ignore
+      undefined
+    ])).toBe(0)
   })
 })
 
@@ -189,13 +213,25 @@ describe('min(numbers)', () => {
   })
 
   it('should ignore null values', () => {
-    expect(min([null, -10, 0, 20])).toBe(-10)
-    expect(min([-10, 0, 20, null])).toBe(-10)
+    expect(min([
+      // @ts-ignore
+      null,
+      -10, 0, 20])).toBe(-10)
+    expect(min([-10, 0, 20,
+      // @ts-ignore
+      null
+    ])).toBe(-10)
   })
 
   it('should ignore undefined values', () => {
-    expect(min([undefined, -10, 0, 20])).toBe(-10)
-    expect(min([-10, 0, 20, undefined])).toBe(-10)
+    expect(min([
+      // @ts-ignore
+      undefined,
+      -10, 0, 20])).toBe(-10)
+    expect(min([-10, 0, 20,
+      // @ts-ignore
+      undefined
+    ])).toBe(-10)
   })
 })
 
@@ -225,12 +261,24 @@ describe('sum(numbers)', () => {
   })
 
   it('should ignore null values', () => {
-    expect(sum([null, 40, 2])).toBe(42)
-    expect(sum([2, 40, null])).toBe(42)
+    expect(sum([
+      // @ts-ignore
+      null,
+      40, 2])).toBe(42)
+    expect(sum([2, 40,
+      // @ts-ignore
+      null
+    ])).toBe(42)
   })
 
   it('should ignore undefined values', () => {
-    expect(sum([undefined, 40, 2])).toBe(42)
-    expect(sum([2, 40, undefined])).toBe(42)
+    expect(sum([
+      // @ts-ignore
+      undefined,
+      40, 2])).toBe(42)
+    expect(sum([2, 40,
+      // @ts-ignore
+      undefined
+    ])).toBe(42)
   })
 })
