@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.0.4 (2025-11-21)
+
+- deps: upgrade dependencies
+
 ## v2.0.3 (2023-09-15)
 
 - Fixed async functions (benchmark and measure) to not run in parallel
