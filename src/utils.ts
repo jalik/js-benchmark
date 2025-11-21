@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 Karl STEIN
+ * Copyright (c) 2025 Karl STEIN
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,64 +22,47 @@
  * SOFTWARE.
  */
 
+export type Stats = ReturnType<typeof calculateStats>
+
 /**
  * Calculates iterations per second.
- * @param {number} time
- * @param {number} iterations
- * @return {number}
+ * @param time
+ * @param iterations
  */
-export function calculateIps (time, iterations) {
+export function calculateIps (time: number, iterations: number) {
   const ratio = 1000 / time
   return iterations * ratio
 }
 
 /**
  * Calculates statistics of several times.
- * @param {number[]} times
- * @return {{
- *   average: number,
- *   fastest: number,
- *   ips: number,
- *   ipsAccuracy: number,
- *   ipsRounded: number,
- *   iterations: number,
- *   median: number,
- *   slowest: number
- *   total: number,
- * }}
+ * @param times
  */
-export function calculateStats (times) {
-  // eslint-disable-next-line no-use-before-define
+export function calculateStats (times: number[]) {
   const total = sum(times)
   const average = total / times.length
   const ips = calculateIps(total, times.length)
-  // eslint-disable-next-line no-use-before-define
   const ipsRounded = roundToNearest(ips)
   const ipsAccuracy = ips - ipsRounded
-  // eslint-disable-next-line no-use-before-define
   const med = median(times)
-  // eslint-disable-next-line no-use-before-define
   const fastest = min(times)
-  // eslint-disable-next-line no-use-before-define
   const slowest = max(times)
   return {
     average,
     fastest,
-    // eslint-disable-next-line no-use-before-define
     ips,
     ipsAccuracy,
     ipsRounded,
     iterations: times.length,
     median: med,
+    rank: null as unknown as number,
     slowest,
     total
   }
 }
 
 /**
- * Returns the current time in milliseconds (with floating precision if
- * supported).
- * @return {number}
+ * Returns the current time in milliseconds (with floating precision if supported).
  */
 export function currentMillis () {
   return typeof performance !== 'undefined' && 'now' in performance
@@ -89,23 +72,20 @@ export function currentMillis () {
 
 /**
  * Returns the formatted time.
- * @param {number} time
- * @return {string}
+ * @param time
  */
-export function formatMillis (time) {
-  // eslint-disable-next-line no-restricted-globals
-  return (typeof time === 'number' && !isNaN(time))
+export function formatMillis (time: number) {
+  return Number.isFinite(time)
     ? time.toFixed(2)
     : null
 }
 
 /**
  * Returns the maximal value of numbers.
- * @param {number[]} numbers
- * @return {null|number}
+ * @param numbers
  */
-export function max (numbers) {
-  if (numbers.length === 0) return null
+export function max (numbers: number[]) {
+  if (numbers.length === 0) return 0
   let num = -Infinity
 
   for (let i = 0; i < numbers.length; i += 1) {
@@ -118,11 +98,10 @@ export function max (numbers) {
 
 /**
  * Returns the median value of numbers.
- * @param {number[]} numbers
- * @return {null|number}
+ * @param numbers
  */
-export function median (numbers) {
-  if (numbers.length === 0) return null
+export function median (numbers: number[]) {
+  if (numbers.length === 0) return 0
   const sortedNumbers = [...numbers]
 
   for (let i = 0; i < numbers.length; i += 1) {
@@ -139,11 +118,10 @@ export function median (numbers) {
 
 /**
  * Returns the minimal value of numbers.
- * @param {number[]} numbers
- * @return {null|number}
+ * @param numbers
  */
-export function min (numbers) {
-  if (numbers.length === 0) return null
+export function min (numbers: number[]) {
+  if (numbers.length === 0) return 0
   let num = Infinity
 
   for (let i = 0; i < numbers.length; i += 1) {
@@ -155,12 +133,11 @@ export function min (numbers) {
 }
 
 /**
- * Returns the nearest number
+ * Returns the nearest number.
  * @param number
  * @param precision
- * @return {number}
  */
-export function roundToNearest (number, precision = 0) {
+export function roundToNearest (number: number, precision = 0) {
   // https://stackoverflow.com/a/51166559/2881350
   const m = 10 ** precision
   const p = 17 - precision - (Math.round(number * m) / m).toString().length
@@ -170,10 +147,9 @@ export function roundToNearest (number, precision = 0) {
 /**
  * Returns the sum of numbers.
  * @param numbers
- * @return {null|number}
  */
-export function sum (numbers) {
-  if (numbers.length === 0) return null
+export function sum (numbers: number[]) {
+  if (numbers.length === 0) return 0
   let total = 0
 
   for (let i = 0; i < numbers.length; i += 1) {

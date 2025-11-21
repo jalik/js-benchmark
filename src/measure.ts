@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 Karl STEIN
+ * Copyright (c) 2025 Karl STEIN
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,24 +22,25 @@
  * SOFTWARE.
  */
 
-import { calculateStats, currentMillis, formatMillis } from './utils'
+import { calculateStats, currentMillis, formatMillis, Stats } from './utils'
+
+export type AsyncJob = () => Promise<void>
+export type SyncJob = () => void
 
 /**
  * Measures the execution times of an async function.
- * @param {function} asyncFunc
- * @param {number} iterations
- * @return {Promise<*>}
+ * @param func
+ * @param iterations
  */
-export async function measure (asyncFunc, iterations = 1) {
+export async function measure (func: AsyncJob, iterations = 1) {
   const times = []
 
   // fixme avoid cold start delay (first call is slower)
-  await asyncFunc()
+  await func()
 
   for (let i = 0; i < iterations; i += 1) {
     times[i] = currentMillis()
-    // eslint-disable-next-line no-await-in-loop
-    await asyncFunc()
+    await func()
     times[i] = currentMillis() - times[i]
   }
   return calculateStats(times)
@@ -47,11 +48,10 @@ export async function measure (asyncFunc, iterations = 1) {
 
 /**
  * Measures the execution times of a function.
- * @param {function} func
- * @param {number} iterations
- * @return {*}
+ * @param func
+ * @param iterations
  */
-export function measureSync (func, iterations = 1) {
+export function measureSync (func: SyncJob, iterations = 1) {
   const times = []
 
   for (let i = 0; i < iterations; i += 1) {
@@ -64,16 +64,15 @@ export function measureSync (func, iterations = 1) {
 
 /**
  * Displays measure result in the console.
- * @param result
+ * @param stats
  */
-export function logMeasureResult (result) {
-  // eslint-disable-next-line no-console
+export function logMeasureResult (stats: Stats) {
   console.info([
-    `iterations/s: ${result.ipsRounded} ±${result.ipsAccuracy.toFixed(2)}%`,
-    `total: ${formatMillis(result.total)} ms`,
-    `average: ${formatMillis(result.average)} ms`,
-    `median: ${formatMillis(result.median)} ms`,
-    `fastest: ${formatMillis(result.fastest)} ms`,
-    `slowest: ${formatMillis(result.slowest)} ms`
+    `iterations/s: ${stats.ipsRounded} ±${stats.ipsAccuracy.toFixed(2)}%`,
+    `total: ${formatMillis(stats.total)} ms`,
+    `average: ${formatMillis(stats.average)} ms`,
+    `median: ${formatMillis(stats.median)} ms`,
+    `fastest: ${formatMillis(stats.fastest)} ms`,
+    `slowest: ${formatMillis(stats.slowest)} ms`
   ].join('\r\n'))
 }

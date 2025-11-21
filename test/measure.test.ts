@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 Karl STEIN
+ * Copyright (c) 2025 Karl STEIN
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,8 +23,8 @@
  */
 
 import { describe, expect, it } from '@jest/globals'
-import { measure, measureSync } from '../src'
-import { asyncJob, job } from './lib'
+import { measure, measureSync } from '../src/index.ts'
+import { asyncJob, job } from './lib.ts'
 
 describe('measure(func, iterations)', () => {
   const iterations = 100

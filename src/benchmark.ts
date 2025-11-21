@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 Karl STEIN
+ * Copyright (c) 2025 Karl STEIN
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,26 +22,27 @@
  * SOFTWARE.
  */
 
-import { logMeasureResult, measure, measureSync } from './measure'
+import { AsyncJob, logMeasureResult, measure, measureSync, SyncJob } from './measure'
+import { Stats } from './utils'
+
+export type AsyncJobs = Record<string, AsyncJob>
+export type SyncJobs = Record<string, SyncJob>
+export type BenchmarkResult = Record<string, Stats>
 
 /**
  * Measures the execution times of several async functions.
- * @param asyncJobs
- * @param {number} iterations
- * @return {Promise<*>}
+ * @param jobs
+ * @param iterations
  */
-export async function benchmark (asyncJobs, iterations = 1) {
-  const results = []
-  const measures = {}
-
-  // Measure functions synchronously.
-  const entries = Object.entries(asyncJobs)
+export async function benchmark (jobs: AsyncJobs, iterations = 1) {
+  const results: [string, Stats][] = []
+  const result: BenchmarkResult = {}
+  const entries = Object.entries(jobs)
 
   for (let i = 0; i < entries.length; i += 1) {
     const [name, asyncFunc] = entries[i]
-    // eslint-disable-next-line no-await-in-loop
-    const result = await measure(asyncFunc, iterations)
-    results.push([name, result])
+    const stats = await measure(asyncFunc, iterations)
+    results.push([name, stats])
     // todo allow pausing between jobs
   }
 
@@ -49,23 +50,20 @@ export async function benchmark (asyncJobs, iterations = 1) {
   const sortedResults = results
     .sort((a, b) => a[1].total - b[1].total)
 
-  // Assign rank to each function result.
-  sortedResults.forEach(([name, result], index) => {
-    measures[name] = { ...result, rank: index + 1 }
+  // Assign rank to each result.
+  sortedResults.forEach(([name, stats], index) => {
+    result[name] = { ...stats, rank: index + 1 }
   })
-  return measures
+  return result
 }
 
 /**
  * Measures the execution times of several functions.
  * @param jobs
- * @param {number} iterations
- * @return {*}
+ * @param iterations
  */
-export function benchmarkSync (jobs, iterations = 1) {
-  const result = {}
-
-  // Measure functions synchronously.
+export function benchmarkSync (jobs: SyncJobs, iterations = 1) {
+  const result: BenchmarkResult = {}
   const entries = Object.entries(jobs)
 
   for (let i = 0; i < entries.length; i += 1) {
@@ -77,28 +75,27 @@ export function benchmarkSync (jobs, iterations = 1) {
   const sortedResult = Object.entries(result)
     .sort((a, b) => a[1].total - b[1].total)
 
-  // Assign rank to each function result.
-  sortedResult.forEach((r, index) => {
-    result[r[0]].rank = index + 1
+  // Assign rank to each result.
+  sortedResult.forEach(([name, stats], index) => {
+    result[name] = { ...stats, rank: index + 1 }
   })
   return result
 }
 
 /**
- * Displays benchmark result in the console.
+ * Displays the benchmark result in the console.
  * @param result
  */
-export function logBenchmarkResult (result) {
+export function logBenchmarkResult (result: BenchmarkResult) {
   // Sort result from fastest to slowest.
   const sortedResult = Object.entries(result)
-    .map((entry) => [entry[0], entry[1].total])
+    .map((el): [string, number] => [el[0], el[1].total])
     .sort((a, b) => a[1] - b[1])
 
-  // Display each result to console.
+  // Display each result to the console.
   sortedResult.forEach((entry, index) => {
     const mr = result[entry[0]]
     const pre = index > 0 && index < sortedResult.length ? '\r\n' : ''
-    // eslint-disable-next-line no-console
     console.info(`${pre}#${mr.rank} ${entry[0]}`)
     logMeasureResult(mr)
   })

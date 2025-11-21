@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 Karl STEIN
+ * Copyright (c) 2025 Karl STEIN
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
  */
 
 import { describe, expect, it, jest } from '@jest/globals'
-import { benchmark, benchmarkSync } from '../src'
+import { benchmark, benchmarkSync } from '../src/index.ts'
 import { asyncJob, job } from './lib'
 
 describe('benchmark(funcs, iterations)', () => {

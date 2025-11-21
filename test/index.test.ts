@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2023 Karl STEIN
+ * Copyright (c) 2025 Karl STEIN
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,12 +23,7 @@
  */
 
 import { describe, expect, it } from '@jest/globals'
-import {
-  benchmarkSync,
-  logBenchmarkResult,
-  logMeasureResult,
-  measureSync
-} from '../src/index'
+import { benchmarkSync, logBenchmarkResult, logMeasureResult, measureSync } from '../src/index.ts'
 
 describe('benchmarkSync()', () => {
   it('should be importable from index', () => {
