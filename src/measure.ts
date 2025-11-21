@@ -24,8 +24,8 @@
 
 import { calculateStats, currentMillis, formatMillis, Stats } from './utils'
 
-export type AsyncJob = () => Promise<void>
-export type SyncJob = () => void
+export type AsyncJob = () => Promise<unknown>
+export type SyncJob = () => unknown
 
 /**
  * Measures the execution times of an async function.
