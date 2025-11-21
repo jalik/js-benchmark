@@ -28,9 +28,9 @@ import { asyncJob, job } from './lib'
 
 describe('benchmark(funcs, iterations)', () => {
   const iterations = 1
-  const job1 = vi.fn(() => asyncJob(1000))
-  const job2 = vi.fn(() => asyncJob(2000))
-  const job3 = vi.fn(() => asyncJob(3000))
+  const job1 = vi.fn(() => asyncJob(100000))
+  const job2 = vi.fn(() => asyncJob(200000))
+  const job3 = vi.fn(() => asyncJob(300000))
   const funcs = { job2, job1, job3 }
   const promise = benchmark(funcs, iterations)
 
@@ -76,9 +76,9 @@ describe('benchmark(funcs, iterations)', () => {
 
 describe('benchmarkSync(funcs, iterations)', () => {
   const iterations = 100
-  const job1 = vi.fn(() => job(1000))
-  const job2 = vi.fn(() => job(2000))
-  const job3 = vi.fn(() => job(3000))
+  const job1 = vi.fn(() => job(100000))
+  const job2 = vi.fn(() => job(200000))
+  const job3 = vi.fn(() => job(300000))
   const funcs = { job2, job1, job3 }
   const result = benchmarkSync(funcs, iterations)
 

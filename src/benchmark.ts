@@ -35,19 +35,17 @@ export type BenchmarkResult = Record<string, Stats>
  * @param iterations
  */
 export async function benchmark (jobs: AsyncJobs, iterations = 1) {
-  const results: [string, Stats][] = []
   const result: BenchmarkResult = {}
   const entries = Object.entries(jobs)
 
   for (let i = 0; i < entries.length; i += 1) {
-    const [name, asyncFunc] = entries[i]
-    const stats = await measure(asyncFunc, iterations)
-    results.push([name, stats])
+    const [name, func] = entries[i]
+    result[name] = await measure(func, iterations)
     // todo allow pausing between jobs
   }
 
   // Sort result from fastest to slowest.
-  const sortedResults = results
+  const sortedResults = Object.entries(result)
     .sort((a, b) => a[1].total - b[1].total)
 
   // Assign rank to each result.
