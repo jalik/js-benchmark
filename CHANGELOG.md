@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.0.5 (2025-11-21)
+
+- fix: fix ranking when using async benchmark()
+
 ## v2.0.4 (2025-11-21)
 
 - deps: upgrade dependencies
