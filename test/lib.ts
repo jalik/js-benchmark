@@ -22,15 +22,13 @@
  * SOFTWARE.
  */
 
-export function job (iteration: number) {
-  let result = null
-
-  for (let i = 0; i < iteration; i += 1) {
-    result = i ** i
+export function job (time: number) {
+  const start = Date.now()
+  while (Date.now() - start < time) {
+    // do nothing
   }
-  return result
 }
 
-export async function asyncJob (iteration: number) {
-  return job(iteration)
+export function asyncJob (time: number) {
+  return new Promise(resolve => setTimeout(resolve, time))
 }
