@@ -37,8 +37,8 @@
     "dev-cjs": "tsc --watch -p tsconfig.cjs.json",
     "dev-esm": "tsc --watch",
     "dev": "concurrently 'npm:dev-*'",
-    "lint": "eslint --ext .ts .",
-    "lint-fix": "eslint --ext .ts --fix .",
+    "lint": "eslint --config eslint.config.mjs .",
+    "lint-fix": "eslint --config eslint.config.mjs --fix .",
     "prepare": "npm run clean && npm run build",
     "prepublishOnly": "npm run lint && npm test",
     "test": "vitest run --passWithNoTests --coverage"
@@ -48,15 +48,13 @@
     "@babel/core": "^7.28.5",
     "@babel/preset-env": "^7.28.5",
     "@babel/preset-typescript": "^7.28.5",
-    "@typescript-eslint/eslint-plugin": "^6.21.0",
-    "@typescript-eslint/parser": "^6.21.0",
+    "@eslint/js": "^9.15.0",
     "@vitest/coverage-v8": "^4.0.15",
     "concurrently": "^9.2.1",
-    "eslint": "^8.49.0",
-    "eslint-config-standard": "^17.1.0",
-    "eslint-plugin-import": "^2.32.0",
+    "eslint": "^9.15.0",
     "rimraf": "^6.1.2",
     "typescript": "^5.9.3",
+    "typescript-eslint": "^8.7.0",
     "vitest": "^4.0.15"
   }
 }
