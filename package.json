@@ -30,7 +30,7 @@
     "README.md"
   ],
   "scripts": {
-    "build": "npm run build-cjs && npm run build-esm",
+    "build": "npm run clean && npm run build-cjs && npm run build-esm",
     "build-cjs": "tsc -p tsconfig.cjs.json",
     "build-esm": "tsc",
     "clean": "rimraf ./cjs ./esm",
@@ -41,7 +41,8 @@
     "lint-fix": "eslint --config eslint.config.mjs --fix .",
     "prepare": "npm run clean && npm run build",
     "prepublishOnly": "npm run lint && npm test",
-    "test": "vitest run --passWithNoTests --coverage"
+    "test": "vitest run --passWithNoTests --coverage",
+    "preversion": "npm run lint && npm run test"
   },
   "devDependencies": {
     "@babel/cli": "^7.28.3",
