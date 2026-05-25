@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.0.7 (2026-05-25)
+
+- deps: upgrade dependencies
+
 ## v2.0.6 (2025-12-04)
 
 - deps: upgrade dependencies
